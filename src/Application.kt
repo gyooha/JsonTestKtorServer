@@ -1,30 +1,25 @@
 package io.seroo
 
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
 import io.ktor.features.ContentNegotiation
 import io.ktor.gson.gson
-import io.ktor.html.respondHtml
 import io.ktor.http.ContentType
 import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
 import io.seroo.model.Product
 import io.seroo.model.ProductFactory
 import io.seroo.model.ProductGroup
 import io.seroo.model.enum.ProductGroupType
 import kotlinx.coroutines.launch
-import kotlinx.css.*
-import kotlinx.html.*
+import kotlinx.css.CSSBuilder
+import kotlinx.html.CommonAttributeGroupFacade
+import kotlinx.html.FlowOrMetaDataContent
+import kotlinx.html.style
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -55,7 +50,16 @@ fun Application.module() {
                     ).also { productList.add(it) }
                 }
 
-                println("test")
+                call.respond(productList)
+            }
+        }
+
+        get("/my-json-empty") {
+            launch {
+                val productList = mutableListOf<Product>()
+                repeat(100_000) {
+                    productList.add(Product())
+                }
 
                 call.respond(productList)
             }

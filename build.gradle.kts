@@ -40,7 +40,7 @@ sourceSets {
 repositories {
     mavenLocal()
     jcenter()
-    "https://kotlin.bintray.com"?.also {
+    "https://kotlin.bintray.com".also {
         maven { setUrl("$it/ktor") }
         maven { setUrl("$it/kotlin-js-wrappers") }
     }
